@@ -10,7 +10,9 @@ A high-precision image tagging utility designed for dataset curation. This tool 
   WD-EVA02-Large-v3
   WD-ViT-Large-v3
   WD-swinv2
-
+  WD-ConvNext-v3 (tagger2.py and tagger3.py only)
+  CL-Auto-Latest (tagger2.py and tagger3.py only)
+  
 #Aggregates results to maximize recall while maintaining high precision.
 
 #Threshold Logic:
@@ -43,7 +45,7 @@ A high-precision image tagging utility designed for dataset curation. This tool 
 
 #Clone and Enter:
 
-  git clone [https://github.com/yourusername/surgical-tagger.git](https://github.com/yourusername/surgical-tagger.git)
+  gh repo clone paoloinverse/Surgical-Auto-Tagger
   cd surgical-tagger
 
 
@@ -58,7 +60,7 @@ A high-precision image tagging utility designed for dataset curation. This tool 
 
   source venv/bin/activate
 
-#Launch:
+#Launch tagger.py (fastest version):
   
   ./run.sh 
 
@@ -66,6 +68,9 @@ A high-precision image tagging utility designed for dataset curation. This tool 
 
   ./run_generic.sh 
 
+#Generic launcher for tagger3 (agnostic, works across most configurations), note: this will launche the latest version:
+
+  ./run_generic_tagger3.sh
 
 #Usage Workflow
 

@@ -7,11 +7,18 @@ A high-precision image tagging utility designed for dataset curation. This tool 
 #Multi-Model Ensemble:
 
   Simultaneously run multiple state-of-the-art ONNX taggers:
+  
   WD-EVA02-Large-v3
+  
   WD-ViT-Large-v3
+  
   WD-swinv2
+  
   WD-ConvNext-v3 (tagger2.py and tagger3.py only)
+  
   CL-Auto-Latest (tagger2.py and tagger3.py only)
+
+  
   
 #Aggregates results to maximize recall while maintaining high precision.
 

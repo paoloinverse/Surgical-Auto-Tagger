@@ -15,7 +15,7 @@ import onnxruntime as ort
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
                              QPushButton, QFileDialog, QTableWidget, QTableWidgetItem, 
                              QHeaderView, QProgressBar, QLabel, QLineEdit, QTextEdit,
-                             QMessageBox, QDoubleSpinBox, QCheckBox, QGroupBox, 
+                             QMessageBox, QDoubleSpinBox, QSlider, QCheckBox, QGroupBox, 
                              QStyledItemDelegate, QScrollArea, QInputDialog)
 from PySide6.QtCore import Qt, QThread, Signal, QSize
 from PySide6.QtGui import QPixmap, QTextDocument
@@ -272,7 +272,7 @@ class TaggerWorker(QThread):
 class App(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Booru Tagger v2026.2 (Universal)")
+        self.setWindowTitle("Booru Tagger v2026.3 (Universal + High Precision)")
         self.resize(1300, 900)
         self.dataset_path = ""
         self.custom_models = [] # Stores (name, onnx_path, tags_path)
@@ -384,8 +384,30 @@ class App(QMainWindow):
         # Default checking logic: EVA02 checks by default, others dont
         chk.setChecked(checked or ("EVA02" in name and not self.custom_models)) 
         
-        spn = QDoubleSpinBox(); spn.setRange(0.0, 1.0); spn.setValue(0.35); spn.setSingleStep(0.05)
-        gl.addWidget(chk); gl.addWidget(QLabel("Thresh:")); gl.addWidget(spn)
+        # High Precision SpinBox
+        spn = QDoubleSpinBox()
+        spn.setRange(0.0000, 1.0000)
+        spn.setDecimals(4)
+        spn.setSingleStep(0.005) # Fine tuning step
+        spn.setValue(0.3500)
+        spn.setFixedWidth(80) # Slightly wider for 4 digits
+
+        # Quadratic Slider
+        sld = QSlider(Qt.Horizontal)
+        sld.setRange(0, 1000)
+        # Initialize slider position based on default spin value (Quadratic: sld = sqrt(val)*1000)
+        sld.setValue(int(np.sqrt(0.3500) * 1000))
+
+        # Linkage Logic
+        # Slider -> Spinbox (Quadratic map: v -> (v/1000)^2)
+        sld.valueChanged.connect(lambda v, s=spn: s.setValue((v/1000)**2))
+        # Spinbox -> Slider (Inverse map: v -> sqrt(v)*1000)
+        spn.valueChanged.connect(lambda v, s=sld: s.blockSignals(True) or s.setValue(int(np.sqrt(v)*1000)) or s.blockSignals(False))
+
+        gl.addWidget(chk)
+        gl.addWidget(QLabel("Thresh:"))
+        gl.addWidget(spn)
+        gl.addWidget(sld) # Slider added back
         
         self.m_layout.addWidget(grp)
         # Store using name as key
@@ -493,6 +515,7 @@ if __name__ == "__main__":
     window = App()
     window.show()
     sys.exit(app.exec())
+
 
 
 

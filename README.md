@@ -54,13 +54,14 @@ A high-precision image tagging utility designed for dataset curation. This tool 
 
   git clone https://github.com/paoloinverse/Surgical-Auto-Tagger.git
   
-  cd surgical-tagger
+  cd Surgical-Auto-Tagger
 
 
 #Environment Setup:
 
   Run the provided install script to handle dependencies and avoid ONNX/PySide conflicts:
-  
+
+  chmod 755 ./install.sh
   ./install.sh 
 
 

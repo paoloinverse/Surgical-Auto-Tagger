@@ -52,7 +52,7 @@ A high-precision image tagging utility designed for dataset curation. This tool 
 
 #Clone and Enter:
 
-  gh repo clone paoloinverse/Surgical-Auto-Tagger
+  git clone https://github.com/paoloinverse/Surgical-Auto-Tagger.git
   
   cd surgical-tagger
 

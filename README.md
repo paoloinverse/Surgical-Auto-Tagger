@@ -61,7 +61,7 @@ A high-precision image tagging utility designed for dataset curation. This tool 
 
   Run the provided install script to handle dependencies and avoid ONNX/PySide conflicts:
 
-  chmod 755 ./install.sh
+  chmod 755 ./*.sh
   ./install.sh 
 
 

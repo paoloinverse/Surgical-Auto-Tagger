@@ -73,11 +73,14 @@ A high-precision image tagging utility designed for dataset curation. This tool 
   
   ./run.sh 
 
+  #PLEASE NOTE: the first run of a model requires to download the model data. Some models are quite large, at oger 1.2GB in size and will take time. Subsequent runs will be much faster.
+  
+
 #Generic launcher (agnostic, works across most configurations), note: this will preset required environment variables for CUDA:
 
   ./run_generic.sh 
 
-#Generic launcher for tagger3 (agnostic, works across most configurations), note: this will launche the latest version:
+#Generic launcher for tagger3 (agnostic, works across most configurations), note: this will launch the latest version:
 
   ./run_generic_tagger3.sh
 

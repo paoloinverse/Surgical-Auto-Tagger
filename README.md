@@ -2,7 +2,8 @@
 
 A high-precision image tagging utility designed for dataset curation. This tool focuses on "surgical" precision, allowing for fine-grained threshold control and batch editing of booru-style tags across large datasets.
 
-<img width="1920" height="1055" alt="image" src="https://github.com/user-attachments/assets/c4905020-0062-42a5-aa79-926a9b473933" />
+
+<img width="1920" height="1055" alt="image" src="https://github.com/user-attachments/assets/cce027db-2b52-452d-b592-bde11ceac8a8" />
 
 
 

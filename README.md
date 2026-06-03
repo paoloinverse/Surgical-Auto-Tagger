@@ -1,108 +1,51 @@
-#Surgical Auto-Tagger v2.6 (SAT)
+# Booru Autotagger v2026.4
 
-A high-precision image tagging utility designed for dataset curation. This tool focuses on "surgical" precision, allowing for fine-grained threshold control and batch editing of booru-style tags across large datasets.
+This application automates the first stage of image dataset curation by loading images from a directory, executing multi-model booru-style autotagging, performing tag reranking, and enabling manual editing before mass-exporting the metadata.
 
+---
 
-<img width="1920" height="1055" alt="image" src="https://github.com/user-attachments/assets/cce027db-2b52-452d-b592-bde11ceac8a8" />
+## Technical Overview
 
+* **Processing Pipeline:** Loads local image directories, processes images through multiple concurrent tagging models, cross-references outputs, and applies a reranking algorithm to finalize tag confidence.
+* **Hardware Execution:** Optimized for local execution. It automatically detects system capabilities and can run entirely within a CPU/RAM environment without dedicated GPU acceleration.
+* **Model Management:** Required weights and model configurations are fetched and cached automatically upon the first execution.
+* **Data Management:** Provides an interface to review and edit tags individually prior to executing a batch export of the metadata.
 
+---
 
-#Core Features
+## Installation
 
-#Multi-Model Ensemble:
+The application executes within a isolated Python virtual environment (`venv`). The launcher script automatically detects and links nested CUDA binaries (such as NVIDIA site-packages) inside the virtual environment to `LD_LIBRARY_PATH` to ensure proper hardware execution.
 
-  Simultaneously run multiple state-of-the-art ONNX taggers:
-  
-  WD-EVA02-Large-v3
-  
-  WD-ViT-Large-v3
-  
-  WD-swinv2
-  
-  WD-ConvNext-v3 (tagger2.py and tagger3.py only)
-  
-  CL-Auto-Latest (tagger2.py and tagger3.py only)
+### Prerequisites
 
-  
-  
-#Aggregates results to maximize recall while maintaining high precision.
+* Python 3.10 or higher
+* `bash` shell environment
+* Internet connection (initial run only, for automated model downloading)
 
-#Threshold Logic:
+### Setup Steps
 
-  Features separate threshold mapping for each model.
-  Provides high-granularity control in the 0.05 to 0.40 range, where tag precision matters most.
+1. Clone or copy the repository to your local machine.
+2. Navigate to the root directory containing `tagger5.py` and `run_generic_tagger5.sh`.
+3. Create the virtual environment, upgrade baseline package managers, and install dependencies:
 
+```bash
+python3 -m venv venv
+source venv/bin/bin/activate
+pip install --upgrade pip setuptools wheel
+pip install -r requirements.txt
+deactivate
 
-#Tag Editing Suite:
+```
 
-  Batch Replace: Rename tags across the entire loaded dataset.
-  Batch Prepend: Add specific trigger words or quality tags to the start of every file.
-  Live Preview: Dedicated image previewer to verify visual accuracy against generated tags.
-  In-Memory Buffer: Edit tags in the table UI and commit to disk only when satisfied.
-  Smart Rating Detection:
-  Broad-spectrum scanning for rating tags (general, sensitive, questionable, explicit).
-  Automatically cleans and formats rating postfixes for standardized dataset structures.
+---
 
+## Usage
 
-#Installation
+Do not invoke the Python script directly if you require automated hardware library mapping / GPU execution. Execute the provided wrapper script to handle environment variables and launch the application:
 
-#Prerequisites
+```bash
+chmod +x run_generic_tagger5.sh
+./run_generic_tagger5.sh
 
-  Python 3.10+
-  NVIDIA GPU with CUDA 12.x support (for onnxruntime-gpu)
-  Minimum 8GB VRAM recommended for ensemble workflows.
-  CPU fallback in case of no GPU. Any decent recent CPU can work reasonably fast. 
-
-#Quick Start
-
-#Clone and Enter:
-
-  git clone https://github.com/paoloinverse/Surgical-Auto-Tagger.git
-  
-  cd Surgical-Auto-Tagger
-
-
-#Environment Setup:
-
-  Run the provided install script to handle dependencies and avoid ONNX/PySide conflicts:
-
-  chmod 755 ./*.sh
-  ./install.sh 
-
-
-#Activate the Python environment if you didn’t already:
-
-  source venv/bin/activate
-
-#Launch tagger.py (fastest version):
-  
-  ./run.sh 
-
-  #PLEASE NOTE: the first run of a model requires to download the model data. Some models are quite large, at oger 1.2GB in size and will take time. Subsequent runs will be much faster.
-  
-
-#Generic launcher (agnostic, works across most configurations), note: this will preset required environment variables for CUDA:
-
-  ./run_generic.sh 
-
-#Generic launcher for tagger3 (agnostic, works across most configurations), note: this will launch the latest version:
-
-  ./run_generic_tagger3.sh
-
-#Usage Workflow
-
-  Load: Use Open Dataset to select your image directory.
-
-  Configure: Adjust the quadratic sliders or numerical inputs for each model in the ensemble. Enable Force Rating Postfix if required for your training pipeline.
-
-  Process: Click START ENSEMBLE. Watch the diagnostic log for real-time rating detection and model loading status.
-
-  Refine: Use the Find/Replace or Prepend tools to clean up specific tags.
-
-  Commit: Click SAVE ALL TXT to write changes back to your .txt files.
-
-
-#Credits
-
-  Models developed by SmilingWolf.
-  Built with PySide6 and ONNX Runtime.
+```

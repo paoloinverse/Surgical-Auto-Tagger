@@ -4,6 +4,13 @@ This application automates the first stage of image dataset curation by loading 
 
 ---
 
+# Configuration
+The threshold can be granularly preset for each of the available models, and the configurations can be exported and imported from file. 
+The maximum number of tags per image can be configured. 
+Dynamic thresholding (MCut) is available. (ref.: https://www.researchgate.net/publication/262324551_MCut_A_Thresholding_Strategy_for_Multi-label_Classification)
+
+---
+
 ## Technical Overview
 
 * **Processing Pipeline:** Loads local image directories, processes images through multiple concurrent tagging models, cross-references outputs, and applies a reranking algorithm to finalize tag confidence.
